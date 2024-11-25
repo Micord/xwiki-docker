@@ -75,8 +75,7 @@ RUN mkdir -p /usr/local/xwiki/data/extension/repository && \
     cd /usr/local/xwiki/data/extension/repository && \
     curl -fSL "${XWIKI_EXT_URL_PREFIX}/xwiki-platform-distribution-flavor-xip-${XWIKI_VERSION}.xip" -o xwiki.zip && \
     unzip xwiki.zip && \
-    rm -f xwiki.zip && \
-    pwd && ls -la
+    rm -f xwiki.zip
 
 # Replacing the website tab icons
 RUN cd /usr/local/tomcat/webapps/ROOT/resources/icons/xwiki && \
