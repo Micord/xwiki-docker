@@ -70,6 +70,19 @@ ENV POSTGRES_JDBC_TARGET="/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/${POSTGRES_
 RUN curl -fSL "${POSTGRES_JDBC_PREFIX}/${POSTGRES_JDBC_ARTIFACT}" -o $POSTGRES_JDBC_TARGET && \
   echo "$POSTGRES_JDBC_SHA256 $POSTGRES_JDBC_TARGET" | sha256sum -c -
 
+ENV XWIKI_EXT_URL_PREFIX="https://maven.xwiki.org/releases/org/xwiki/platform/xwiki-platform-distribution-flavor-xip/${XWIKI_VERSION}"
+RUN mkdir -p /usr/local/xwiki/data/extension/repository && \
+    cd /usr/local/xwiki/data/extension/repository && \
+    curl -fSL "${XWIKI_EXT_URL_PREFIX}/xwiki-platform-distribution-flavor-xip-${XWIKI_VERSION}.xip" -o xwiki.zip && \
+    unzip xwiki.zip && \
+    rm -f xwiki.zip
+
+# Replacing the website tab icons
+RUN cd /usr/local/tomcat/webapps/ROOT/resources/icons/xwiki && \
+    rm -f favicon*.*
+
+COPY icons/favicon*.* /usr/local/tomcat/webapps/ROOT/resources/icons/xwiki
+
 # Configure Tomcat. For example set the memory for the Tomcat JVM since the default value is too small for XWiki
 COPY tomcat/setenv.sh /usr/local/tomcat/bin/
 
