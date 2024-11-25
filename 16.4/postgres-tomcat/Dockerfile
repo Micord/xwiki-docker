@@ -70,6 +70,7 @@ ENV POSTGRES_JDBC_TARGET="/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/${POSTGRES_
 RUN curl -fSL "${POSTGRES_JDBC_PREFIX}/${POSTGRES_JDBC_ARTIFACT}" -o $POSTGRES_JDBC_TARGET && \
   echo "$POSTGRES_JDBC_SHA256 $POSTGRES_JDBC_TARGET" | sha256sum -c -
 
+# Adding extensions to enable XWiki to run without an internet connection
 ENV XWIKI_EXT_URL_PREFIX="https://maven.xwiki.org/releases/org/xwiki/platform/xwiki-platform-distribution-flavor-xip/${XWIKI_VERSION}"
 RUN mkdir -p /usr/local/xwiki/data/extension/repository && \
     cd /usr/local/xwiki/data/extension/repository && \
